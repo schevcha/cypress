@@ -1,8 +1,5 @@
-const { faker } = require('@faker-js/faker');
-
-const username = 'ff1f'
-const email = 'ff1f@gmail.com';
-const password = 'fff';
+import { faker } from '@faker-js/faker';
+import example from '../fixtures/example';
 
 describe('Sign Up', () => {
 
@@ -32,10 +29,10 @@ describe('Sign In', () => {
         cy.url().should('include', '/#/login');
         cy.get('.auth-page h1').should('have.text', 'Sign in');
         cy.get('.auth-page form').should('be.visible');
-        cy.get('.auth-page form input[ng-model$=email]').type(email);
-        cy.get('.auth-page form input[ng-model$=password]').type(password);
+        cy.get('.auth-page form input[ng-model$=email]').type(example.email);
+        cy.get('.auth-page form input[ng-model$=password]').type(example.password);
         cy.get('.auth-page form button[type=submit]').click();
-        cy.get('.navbar').should('contain.text', 'ff1f');
+        cy.get('.navbar').should('contain.text', example.username);
     })
 })
 
@@ -46,13 +43,13 @@ describe('Logout', () => {
         cy.url().should('include', '/#/login');
         cy.get('.auth-page h1').should('have.text', 'Sign in');
         cy.get('.auth-page form').should('be.visible');
-        cy.get('.auth-page form input[ng-model$=email]').type(email);
-        cy.get('.auth-page form input[ng-model$=password]').type(password);
+        cy.get('.auth-page form input[ng-model$=email]').type(example.email);
+        cy.get('.auth-page form input[ng-model$=password]').type(example.password);
         cy.get('.auth-page form button[type=submit]').click();
-        cy.get('.navbar').should('contain.text', username);
+        cy.get('.navbar').should('contain.text', example.username);
         cy.get('.navbar a[href$="/settings"]').click();
         cy.get('.settings-page h1').should('have.text', 'Your Settings');
         cy.get('.settings-page button[ng-click*=logout]').click();
-        cy.get('.navbar').should('not.contain.text', username);
+        cy.get('.navbar').should('not.contain.text', example.username);
     });
 })
