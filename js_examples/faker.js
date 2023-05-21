@@ -8,7 +8,8 @@ export function generateFakeArticle() {
             faker.word.adjective(),
             faker.word.adjective(),
             faker.word.adjective()
-        ]
+        ],
+        body: faker.lorem.paragraphs()
     };
 }
 
