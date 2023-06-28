@@ -1,18 +1,20 @@
-import { generateFakeArticle, generateFakeUser } from '../../js_examples/faker';
-import login from '../support/login';
-import example from '/cypress/fixtures/example.json';
+import { generateFakeArticle, generateFakeUser } from '../../js_examples/faker'; // импорт функций для создания статьи и юзера из файла js_examples/faker.js
+import login from '../support/login'; // импорт функции авторизации из файла login.js
+import example from '../fixtures/example.json'; // импорт пользовательских данных из файла example.json
 
-const article = generateFakeArticle();
-const title = article.title
+const article = generateFakeArticle(); // передаем в переменную article функцию для создания статьи
+const title = article.title // передаем загаловок статьи из функции generateFakeArticle() в переменную title
 
 describe('Article', () => {
 
+    // перед всеми тестами выполняем авторизацию на сайте 
     beforeEach(() => {
         cy.visit('/');
         cy.get('.navbar').should('be.visible').as('appHeader');
         login();
     });
 
+    // тест публикации статьи
     it('Publish article', () => {
         cy.url().should('include', '/#/');
         cy.get('@appHeader').find('a[href$="/editor/"]').click();
@@ -40,13 +42,14 @@ describe('Article', () => {
         }
     })
 
+    // тест удаления статьи
     it('Delete article', () => {
 
-        // open my articles
+        // открываем существующую статью 
         cy.get('@appHeader').contains('a', example.username).click();
         cy.url().should('include', example.username);
 
-        // delete an article
+        // удаляем 
         cy.get('article-list').should('be.visible').as('myArticles');
         cy.get('@myArticles').contains(title)
             .parents('article-preview')
@@ -55,7 +58,7 @@ describe('Article', () => {
 
         cy.url().should('eq', 'https://demo.realworld.io/#/');
 
-        // check the article was delete
+        // проверяем удаление
         cy.get('@appHeader').contains('a', example.username).click();
         cy.get('@myArticles').should('have.length', 0);
 
