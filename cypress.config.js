@@ -4,6 +4,7 @@ module.exports = defineConfig({
   e2e: {
     baseUrl: 'https://demo.realworld.io/',
     video: false,
+    multiple: true,
     },
   },
 );
